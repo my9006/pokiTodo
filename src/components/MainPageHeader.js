@@ -16,7 +16,7 @@ let getTasks = () => {
                     status: task.status,
                     type: task.type,
                     date: task.date,
-                    pokImage: task.url,
+                    url: task.url,
                 }
             })
             return tasks;
@@ -38,8 +38,10 @@ let MainPageHeader = () => {
         setDisplayed(false);
     }
 
-    const createTask = ({ date, title, filter, url }) => {
-        const requestOptions = {
+    const createTask = async ({ date, title, filter }) => {
+        let url;
+        await getPok().then(res => url = res);
+        await fetch('http://localhost:666/task', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -49,24 +51,9 @@ let MainPageHeader = () => {
                 "type": filter.toUpperCase(),
                 "url": url
             }),
-        };
-        Promise.all([fetch('http://localhost:666/task', requestOptions).then(res => null), getPok()])
-            .then(([resp, url]) => {
-                setTasks(oldTasks => {
-                    debugger;
-                    return [
-                        ...oldTasks,
-                        {
-                            title: title,
-                            status: 'NEW',
-                            type: filter.toUpperCase(),
-                            date: date.toString(),
-                            pokImage: url
-                        }
-                    ]
-                })
-            });
-        setDisplayed(false);
+        })
+          await getTasks().then(setTasks);
+          setDisplayed(false);
     }
 
     let deleteHandler = id => {
@@ -78,11 +65,11 @@ let MainPageHeader = () => {
         getTasks().then(setTasks);
     }, [])
 
-    let onStatusChange = (id, status) => {
-        let taskToUpdate= {}
+    let onStatusChange = async (id, status) => {
+        let taskToUpdate = {}
         setTasks(oldTasks => oldTasks.map(task => {
             if (task.id === id) {
-                taskToUpdate=task
+                taskToUpdate = task
                 return {
                     ...task,
                     status,
@@ -90,18 +77,18 @@ let MainPageHeader = () => {
             }
             return task;
         }))
-
-        fetch("http://localhost:666/task/" + id, {
+        debugger;
+        await fetch("http://localhost:666/task/" + id, {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 "date": taskToUpdate.date,
                 "status": status,
                 "title": taskToUpdate.title,
-                "type": taskToUpdate.filter.toUpperCase(),
+                "type": taskToUpdate.type.toUpperCase(),
                 "url": taskToUpdate.url
             }),
-        }).catch((er) => console.log("Bobo happeniing"))
+        }).then(res => { debugger }).catch((er) => console.log("Bobo happeniing"))
     }
 
     let onSearchChange = useCallback(event => setSearch(event.target.value), []);

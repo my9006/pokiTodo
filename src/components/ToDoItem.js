@@ -12,7 +12,7 @@ let ToDoItem = props => {
                 <button className="closeButton" onClick={() => props.delete(props.task.id)}>DELETE</button>
             </div>
             <div className="pokemon">
-                <img src={props.task.pokImage} height="100px" className="pokemon" />
+                <img src={props.task.url} height="100px" className="pokemon" />
             </div>
             <div className="todoType">
                 {props.task.type}
