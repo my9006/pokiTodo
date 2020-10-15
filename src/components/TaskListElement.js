@@ -5,7 +5,7 @@ let TaskListElement = props => {
     
     return (
         <li>
-            <ToDoItem task={props.task} delete={props.delete} statuses={props.statuses} onStatusChange={status=>{
+            <ToDoItem task={props.task} deleteHandler={props.deleteHandler} statuses={props.statuses} onStatusChange={status=>{
                 props.onStatusChange(props.task.id, status)
             }} />
         </li>

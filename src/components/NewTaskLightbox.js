@@ -6,7 +6,6 @@ let NewTaskLightbox = props => {
     const [date, setDate] = useState(new Date());
     const [title, setTitle] = useState("");
     const [filter, setFilter] = useState("none");
-    
 
     return (
         <div className='newTaskLightbox'>

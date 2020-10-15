@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Columns from './Columns';
 import NewTaskLightbox from './NewTaskLightbox';
 import getPok from "./helper/PokemonGetter"
+import {debounce} from "lodash"
 
 const statuses = ["NEW", "IN_PROGRESS", "DONE"];
 
@@ -56,9 +57,11 @@ let MainPageHeader = () => {
           setDisplayed(false);
     }
 
-    let deleteHandler = id => {
-        debugger;
-        setTasks(tasks.filter(task => task.id !== id))
+    let deleteHandler = async (id) => {
+        setTasks(tasks.filter(task => task.id !== id));
+        await fetch("http://localhost:666/task/" + id, {
+            method:"DELETE"
+        } )
     }
 
     useEffect(() => {
@@ -103,7 +106,7 @@ let MainPageHeader = () => {
                 return isSearched && isFiltered;
             });
             console.log("Filter function")
-            setTasks(filteredTasks);
+            debounce(()=>setTasks(filteredTasks), 300)();
         })();
     }, [filter, search])
 

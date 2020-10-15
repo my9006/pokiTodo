@@ -9,7 +9,7 @@ let ToDoItem = props => {
         <div className="todoItem" >
             <div className="header">
                 <span className="todoItemName">{props.task.title}</span>
-                <button className="closeButton" onClick={() => props.delete(props.task.id)}>DELETE</button>
+                <button className="closeButton" onClick={() => props.deleteHandler(props.task.id)}>DELETE</button>
             </div>
             <div className="pokemon">
                 <img src={props.task.url} height="100px" className="pokemon" />

@@ -11,7 +11,7 @@ let TaskListColumn = props => {
         <div className="statusAndColumn">
             <p className="status">{props.tasks.status}</p>
             <div className="column">
-                <TasksList tasks={props.tasks} delete={props.delete} statuses={props.statuses} onStatusChange = {props.onStatusChange}/>
+                <TasksList tasks={props.tasks} deleteHandler={props.deleteHandler} statuses={props.statuses} onStatusChange = {props.onStatusChange}/>
             </div>
         </div>
     );

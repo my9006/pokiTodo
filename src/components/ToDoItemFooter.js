@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 let ToDoItemFooter = props => {
     const [status, setStatus] = useState(props.task.status);
+    let formatDate = miliseconds=>new Date(miliseconds).toLocaleDateString("en-GB");
     return (
         <div className="todoItemFooter">
             <div className="todoItemStatus">
@@ -10,7 +11,7 @@ let ToDoItemFooter = props => {
                 </select>
             </div>
             <div className="todoItemDueDate">
-                <span>{props.task.date}</span>
+                <span>{formatDate(props.task.date)}</span>
             </div>
         </div>
     );
