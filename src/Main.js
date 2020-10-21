@@ -1,5 +1,5 @@
 import React from 'react'
-import MainPageHeader from './components/MainPageHeader';
+import MainPageHeader from './dashboard/components/MainPageHeader';
 
 let Main = props => {
     return (
@@ -8,7 +8,5 @@ let Main = props => {
         </>
     )
 };
-
-
 
 export default Main;

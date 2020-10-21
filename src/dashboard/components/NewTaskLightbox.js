@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -6,12 +6,27 @@ let NewTaskLightbox = props => {
     const [date, setDate] = useState(new Date());
     const [title, setTitle] = useState("");
     const [filter, setFilter] = useState("none");
+    const [isDisabled, setDisabled] = useState(true)
+
+    useEffect(() => {
+        if (filter !== 'none' && title !== "") {
+            setDisabled(false);
+        } else {
+            setDisabled(true);
+        }
+    }, [filter, title])
 
     return (
         <div className='newTaskLightbox'>
-            <input id='newTaskName' onChange={event => setTitle(event.target.value)} className='newTaskName' ></input>
+            <input id='newTaskName' onChange={event => {
+                setTitle(event.target.value)
+            }
+            } className='newTaskName' ></input>
             <div>
-                <select id="filter" name="filters" onChange={event => setFilter(event.target.value)} value={filter}>
+                <select id="filter" name="filters" onChange={event => {
+                    setFilter(event.target.value)
+                }
+                } value={filter}>
                     <option value="none" disabled hidden>
                         Select an Option
                     </option>
@@ -24,7 +39,7 @@ let NewTaskLightbox = props => {
             <div>
                 <DatePicker selected={date} onChange={date => setDate(date)} id="date" />
             </div>
-            <button className='saveButton' onClick={() => props.onSaveClick({date, title, filter})}>Save</button>
+            <button disabled={isDisabled} className='saveButton' onClick={() => props.onSaveClick({ date, title, filter })}>Save</button>
             <button className='cancelButton' onClick={props.onCancelClick}>Cancel</button>
         </div>
     );

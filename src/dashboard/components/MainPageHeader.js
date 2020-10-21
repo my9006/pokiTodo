@@ -6,7 +6,14 @@ import {debounce} from "lodash"
 
 const statuses = ["NEW", "IN_PROGRESS", "DONE"];
 
-let getTasks = () => {
+const getStatuses = ()=>{
+    debugger;
+    return fetch("http://localhost:666/statuses", {method:"GET"})
+    .then(response=>response.json()).then(res=>console.log(res))
+}
+
+let getTasks = async () => {
+    await getStatuses();
     return fetch("http://localhost:666/tasks", { method: "GET" })
         .then(response => response.json())
         .then(responseJson => {
@@ -25,7 +32,6 @@ let getTasks = () => {
 }
 
 let MainPageHeader = () => {
-
     const [isDisplayed, setDisplayed] = useState(false);
     const [tasks, setTasks] = useState([]);
     const [search, setSearch] = useState("");
@@ -80,7 +86,6 @@ let MainPageHeader = () => {
             }
             return task;
         }))
-        debugger;
         await fetch("http://localhost:666/task/" + id, {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
